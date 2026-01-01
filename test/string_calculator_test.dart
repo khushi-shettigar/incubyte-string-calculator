@@ -10,4 +10,8 @@ void main() {
   test('Single number returns its value', () {
     expect(StringCalculator.add("1"), 1);
   });
+
+  test('Two numbers separated by comma return their sum', () {
+    expect(StringCalculator.add("1,5"), 6);
+  });
 }
