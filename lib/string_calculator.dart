@@ -12,15 +12,21 @@ class StringCalculator {
       final delimiterEndIndex = numbers.indexOf('\n');
       final delimiterSection = numbers.substring(2, delimiterEndIndex);
 
-      if(delimiterSection.startsWith('[') && delimiterSection.endsWith(']')) {
-        //Any length delimiter
-        final delimiter = delimiterSection.substring(1, delimiterSection.length - 1);
-        delimiterPattern = RegExp.escape(delimiter);
+      List<String> delimiters = [];
+
+      if(delimiterSection.startsWith('[')) {
+        //Multiple or multi-length delimiters
+        final regx = RegExp(r'\[(.*?)\]');
+        delimiters = regx
+            .allMatches(delimiterSection)
+            .map((m) => RegExp.escape(m.group(1)!))
+            .toList();
       } else {
         // Single character delimiter
-        delimiterPattern = RegExp.escape(delimiterSection);
+        delimiters.add(RegExp.escape(delimiterSection));
       }
 
+      delimiterPattern = delimiters.join('|');
       numbersPart = numbers.substring(delimiterEndIndex + 1);
     }
 
