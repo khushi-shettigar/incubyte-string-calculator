@@ -18,4 +18,8 @@ void main() {
   test('Multiple numbers return their sum', () {
     expect(StringCalculator.add("1,2,3,4"), 10);
   });
+
+  test('New lines between numbers are supported', () {
+    expect(StringCalculator.add("1\n2,3"), 6);
+  });
 }

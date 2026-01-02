@@ -4,13 +4,10 @@ class StringCalculator {
       return 0;
     }
 
-    if(numbers.contains(',')) {
-      final parts = numbers.split(',');
-      return parts
-          .map((n) => int.parse(n))
-          .reduce((a, b) => a + b);
-    }
-
-    return int.parse(numbers);
+    final normalized = numbers.replaceAll('\n', ',');
+    final parts = normalized.split(',');
+    return parts
+        .map((n) => int.parse(n))
+        .reduce((a, b) => a + b);
   }
 }
