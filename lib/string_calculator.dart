@@ -27,6 +27,8 @@ class StringCalculator {
       );
     }
 
-    return nums.reduce((a, b) => a + b);
+    final validNumbers = nums.where((n) => n <= 1000).toList();
+
+    return validNumbers.reduce((a, b) => a + b);
   }
 }
