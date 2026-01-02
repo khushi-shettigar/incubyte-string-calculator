@@ -51,4 +51,8 @@ void main() {
   test('Multiple delimiters are supported', () {
     expect(StringCalculator.add("//[*][%]\n1*2%3"), 6);
   });
+
+  test('Multiple delimiters of any length are supported', () {
+    expect(StringCalculator.add("//[***][%%]\n1***2%%3"), 6);
+  });
 }
