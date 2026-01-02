@@ -43,4 +43,8 @@ void main() {
   test('Numbers bigger than 1000 are ignored', () {
     expect(StringCalculator.add("2,1001"), 2);
   });
+
+  test('Delimiter of any length is supported', () {
+    expect(StringCalculator.add("//[***]\n1***2***3"), 6);
+  });
 }

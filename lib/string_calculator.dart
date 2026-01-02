@@ -4,20 +4,29 @@ class StringCalculator {
       return 0;
     }
 
-    String delimiter = ',';
-    String numberSection = numbers;
+    String delimiterPattern = '[,\n]';
+    String numbersPart = numbers;
 
-    //check for custom delimiter
+    //Handle custom delimiter of any length
     if(numbers.startsWith('//')) {
-      final parts = numbers.split('\n');
-      delimiter = parts[0].substring(2); //get delimiter after //
-      numberSection = parts[1];
+      final delimiterEndIndex = numbers.indexOf('\n');
+      final delimiterSection = numbers.substring(2, delimiterEndIndex);
+
+      if(delimiterSection.startsWith('[') && delimiterSection.endsWith(']')) {
+        //Any length delimiter
+        final delimiter = delimiterSection.substring(1, delimiterSection.length - 1);
+        delimiterPattern = RegExp.escape(delimiter);
+      } else {
+        // Single character delimiter
+        delimiterPattern = RegExp.escape(delimiterSection);
+      }
+
+      numbersPart = numbers.substring(delimiterEndIndex + 1);
     }
 
-    final normalized = numberSection.replaceAll('\n', delimiter);
-    final values = normalized.split(delimiter);
+    final parts = numbersPart.split(RegExp(delimiterPattern));
+    final nums = parts.map(int.parse).toList();
 
-    final nums = values.map(int.parse).toList();
 
     //Check for negatives
     final negatives = nums.where((n) => n < 0).toList();
@@ -29,6 +38,6 @@ class StringCalculator {
 
     final validNumbers = nums.where((n) => n <= 1000).toList();
 
-    return validNumbers.reduce((a, b) => a + b);
+    return validNumbers.isEmpty ? 0 : validNumbers.reduce((a, b) => a + b);
   }
 }
