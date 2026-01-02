@@ -22,4 +22,8 @@ void main() {
   test('New lines between numbers are supported', () {
     expect(StringCalculator.add("1\n2,3"), 6);
   });
+
+  test('Custom delimiter is supported', () {
+    expect(StringCalculator.add("//;\n1;2"), 3);
+  });
 }
