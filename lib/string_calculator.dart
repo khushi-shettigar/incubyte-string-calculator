@@ -13,10 +13,20 @@ class StringCalculator {
       delimiter = parts[0].substring(2); //get delimiter after //
       numberSection = parts[1];
     }
+
     final normalized = numberSection.replaceAll('\n', delimiter);
     final values = normalized.split(delimiter);
-    return values
-        .map((n) => int.parse(n))
-        .reduce((a, b) => a + b);
+
+    final nums = values.map(int.parse).toList();
+
+    //Check for negatives
+    final negatives = nums.where((n) => n < 0).toList();
+    if(negatives.isNotEmpty) {
+      throw Exception(
+        'negatives not allowed: ${negatives.join(',')}',
+      );
+    }
+
+    return nums.reduce((a, b) => a + b);
   }
 }
